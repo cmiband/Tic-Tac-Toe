@@ -5,23 +5,23 @@
 Game::~Game() { }
 
 void Game::SetTextPosition() {
-	title.setPosition(sf::Vector2f(500.0f, 20.0f));
+	title.setPosition(textPos);
 }
 
 void Game::RenderText() {
 	window.draw(title);
 }
 
-void Game::SetPlacesSizesAndFillColors() {
-	place1.setSize(size); place1.setFillColor(placeColor);
+void Game::ConfigurePlaces() {
+	for (int i = 0; i < 9; i++) {
+		places[i].setPosition(positions[i]);
+		places[i].setFillColor(placeColor);
+		window.draw(places[i]);
+	}
 }
 
-void Game::SetPlacesPositions() {
-	place1.setPosition(positions[0]);
-}
-
-void Game::RenderPlaces() {
-	window.draw(place1);
+void Game::ConfigureBars() {
+	
 }
 
 void Game::Play() {
@@ -36,8 +36,9 @@ void Game::Play() {
 			}
 			window.clear(bgColor);
 			
+			SetTextPosition();
 			RenderText();
-			RenderPlaces();
+			ConfigurePlaces();
 
 			window.display();
 		}

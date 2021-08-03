@@ -8,6 +8,7 @@ private:
 	//colors
 	sf::Color bgColor;
 	sf::Color placeColor = sf::Color(sf::Color::Red);
+	sf::Color barColor = sf::Color(sf::Color::Black);
 	
 	//positions
 	sf::Vector2f positions[9] = {
@@ -21,14 +22,32 @@ private:
 		sf::Vector2f(200.0f,300.0f),
 		sf::Vector2f(300.0f,300.0f)
 	};
-	sf::Vector2f textPos = sf::Vector2f(500.0f, 50.0f);
+	sf::Vector2f textPos = sf::Vector2f(150.0f, 25.0f);
 
 	//sizes
 	sf::Vector2f size = sf::Vector2f(100.0f, 100.0f);
 	
 	//objects
 	sf::RenderWindow& window;
-	sf::RectangleShape place1;
+	sf::RectangleShape places[9] = {
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+	};
+	sf::RectangleShape verticalBars[2] = {
+		sf::RectangleShape(sf::Vector2f(10.0f,300.0f)),
+		sf::RectangleShape(sf::Vector2f(10.0f,300.0f))
+	};
+	sf::RectangleShape horizontalBars[2] = {
+		sf::RectangleShape(sf::Vector2f(300.0f, 10.0f)),
+		sf::RectangleShape(sf::Vector2f(300.0f, 10.0f))
+	};
 
 	//text
 	sf::Font font;
@@ -43,9 +62,8 @@ public:
 	void RenderText();
 
 	//tic tac board
-	void SetPlacesSizesAndFillColors();
-	void SetPlacesPositions();
-	void RenderPlaces();
+	void ConfigurePlaces();
+	void ConfigureBars();
 	
 	void Play();
 };
