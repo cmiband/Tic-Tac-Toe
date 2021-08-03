@@ -63,7 +63,9 @@ public:
 
 	//tic tac board
 	void ConfigurePlaces();
+	void DrawPlaces();
 	void ConfigureBars();
+	void DrawBars();
 	
 	void Play();
 };
