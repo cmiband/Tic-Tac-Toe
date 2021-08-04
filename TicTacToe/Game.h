@@ -1,10 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include "Cross.h"
 
-class Game
+class Game : public Cross
 {
 private:
+	Cross c;
+
 	//colors
 	sf::Color bgColor;
 	sf::Color placeColor = sf::Color(sf::Color::Red);
@@ -23,6 +25,7 @@ private:
 		sf::Vector2f(300.0f,300.0f)
 	};
 	sf::Vector2f textPos = sf::Vector2f(150.0f, 25.0f);
+	sf::Vector2f testCrossPos = sf::Vector2f(15.0f, 15.0f);
 
 	//sizes
 	sf::Vector2f size = sf::Vector2f(100.0f, 100.0f);
@@ -55,7 +58,7 @@ private:
 
 public:
 	Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f) { bgColor = c; };
-	~Game();
+	~Game() {};
 
 	//text
 	void SetTextPosition();
@@ -66,6 +69,8 @@ public:
 	void DrawPlaces();
 	void ConfigureBars();
 	void DrawBars();
+
+	void DrawSigns();
 	
 	void Play();
 };

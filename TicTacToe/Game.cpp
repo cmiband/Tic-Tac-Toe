@@ -1,8 +1,5 @@
 #include "Game.h"
 #include <SFML/Graphics.hpp>
-#include <iostream>
-
-Game::~Game() { }
 
 void Game::SetTextPosition() {
 	title.setPosition(textPos);
@@ -13,14 +10,14 @@ void Game::RenderText() {
 }
 
 void Game::ConfigurePlaces() {
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 9; ++i) {
 		places[i].setPosition(positions[i]);
 		places[i].setFillColor(placeColor);
 	}
 }
 
 void Game::DrawPlaces() {
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 9; ++i) {
 		window.draw(places[i]);
 	}
 }
@@ -39,12 +36,18 @@ void Game::DrawBars() {
 	window.draw(horizontalBars[0]); window.draw(horizontalBars[1]);
 }
 
+void Game::DrawSigns() {
+	window.draw(c.line1);
+	window.draw(c.line2);
+}
+
 void Game::Play() {
 	window.clear(bgColor);
 
 	ConfigurePlaces();
 	SetTextPosition();
 	ConfigureBars();
+	c.Initialize(testCrossPos);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -58,6 +61,7 @@ void Game::Play() {
 			RenderText();
 			DrawPlaces();
 			DrawBars();
+			DrawSigns();
 
 			window.display();
 		}
