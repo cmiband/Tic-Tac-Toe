@@ -36,9 +36,13 @@ void Game::DrawBars() {
 	window.draw(horizontalBars[0]); window.draw(horizontalBars[1]);
 }
 
-void Game::DrawSigns() {
-	window.draw(c.line1);
-	window.draw(c.line2);
+void Game::DrawCross() {
+	window.draw(c.getLine1());
+	window.draw(c.getLine2());
+}
+
+void Game::DrawCircle() {
+	window.draw(ci.getShape());
 }
 
 void Game::Play() {
@@ -48,6 +52,7 @@ void Game::Play() {
 	SetTextPosition();
 	ConfigureBars();
 	c.Initialize(testCrossPos);
+	ci.ConfigC(testCirclePos);
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -61,7 +66,8 @@ void Game::Play() {
 			RenderText();
 			DrawPlaces();
 			DrawBars();
-			DrawSigns();
+			DrawCross();
+			DrawCircle();
 
 			window.display();
 		}

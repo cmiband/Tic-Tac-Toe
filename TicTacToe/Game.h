@@ -1,11 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Cross.h"
+#include "Circle.h"
 
 class Game : public Cross
 {
 private:
 	Cross c;
+	Circle ci;
 
 	//colors
 	sf::Color bgColor;
@@ -26,6 +28,7 @@ private:
 	};
 	sf::Vector2f textPos = sf::Vector2f(150.0f, 25.0f);
 	sf::Vector2f testCrossPos = sf::Vector2f(15.0f, 15.0f);
+	sf::Vector2f testCirclePos = sf::Vector2f(400.0f, 15.0f);
 
 	//sizes
 	sf::Vector2f size = sf::Vector2f(100.0f, 100.0f);
@@ -70,7 +73,8 @@ public:
 	void ConfigureBars();
 	void DrawBars();
 
-	void DrawSigns();
+	void DrawCross();
+	void DrawCircle();
 	
 	void Play();
 };
