@@ -148,12 +148,14 @@
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Cross.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Place.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Cross.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Place.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

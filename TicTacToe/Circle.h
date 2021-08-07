@@ -12,7 +12,7 @@ public:
 	Circle() {};
 	~Circle() {};
 
-	void ConfigC(sf::Vector2f& p);
+	void ConfigC(const sf::Vector2f& p);
 	sf::CircleShape getShape();
 };
 

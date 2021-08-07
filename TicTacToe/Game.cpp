@@ -11,14 +11,14 @@ void Game::RenderText() {
 
 void Game::ConfigurePlaces() {
 	for (int i = 0; i < 9; ++i) {
-		places[i].setPosition(positions[i]);
-		places[i].setFillColor(placeColor);
+		places[i].Config();
+		places[i].SetPos(positions[i]);
 	}
 }
 
 void Game::DrawPlaces() {
 	for (int i = 0; i < 9; ++i) {
-		window.draw(places[i]);
+		window.draw(places[i].getShape());
 	}
 }
 
@@ -45,14 +45,19 @@ void Game::DrawCircle() {
 	window.draw(ci.getShape());
 }
 
+sf::Vector2f Game::drawAtPosition(Place& place) {
+	sf::Vector2f p = place.getSignDrawPos();
+	return p;
+}
+
 void Game::Play() {
 	window.clear(bgColor);
 
 	ConfigurePlaces();
 	SetTextPosition();
 	ConfigureBars();
-	c.Initialize(testCrossPos);
-	ci.ConfigC(testCirclePos);
+	c.Initialize(drawAtPosition(places[0]));
+	ci.ConfigC(drawAtPosition(places[1]));
 
 	while (window.isOpen()) {
 		sf::Event event;

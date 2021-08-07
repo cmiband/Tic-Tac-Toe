@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "Cross.h"
 #include "Circle.h"
+#include "Place.h"
 
 class Game : public Cross
 {
@@ -26,25 +27,23 @@ private:
 		sf::Vector2f(200.0f,300.0f),
 		sf::Vector2f(300.0f,300.0f)
 	};
+
 	sf::Vector2f textPos = sf::Vector2f(150.0f, 25.0f);
 	sf::Vector2f testCrossPos = sf::Vector2f(15.0f, 15.0f);
 	sf::Vector2f testCirclePos = sf::Vector2f(400.0f, 15.0f);
-
-	//sizes
-	sf::Vector2f size = sf::Vector2f(100.0f, 100.0f);
 	
 	//objects
 	sf::RenderWindow& window;
-	sf::RectangleShape places[9] = {
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
-		sf::RectangleShape(sf::Vector2f(100.0f,100.0f)),
+	Place places[9] = {
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
+		Place(placeColor),
 	};
 	sf::RectangleShape verticalBars[2] = {
 		sf::RectangleShape(sf::Vector2f(10.0f,300.0f)),
@@ -63,6 +62,8 @@ public:
 	Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f) { bgColor = c; };
 	~Game() {};
 
+
+	sf::Vector2f drawAtPosition(Place& place);
 	//text
 	void SetTextPosition();
 	void RenderText();
