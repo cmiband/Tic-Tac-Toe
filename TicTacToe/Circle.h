@@ -14,5 +14,8 @@ public:
 
 	void ConfigC(const sf::Vector2f& p);
 	sf::CircleShape getShape();
+	void SetPos(sf::Vector2f p) {
+		circle.setPosition(p);
+	}
 };
 

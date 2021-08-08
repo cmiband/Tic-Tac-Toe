@@ -9,13 +9,6 @@ void Game::RenderText() {
 	window.draw(title);
 }
 
-void Game::ConfigurePlaces() {
-	for (int i = 0; i < 9; ++i) {
-		places[i].Config();
-		places[i].SetPos(positions[i]);
-	}
-}
-
 void Game::DrawPlaces() {
 	for (int i = 0; i < 9; ++i) {
 		window.draw(places[i].getShape());
@@ -53,10 +46,9 @@ sf::Vector2f Game::drawAtPosition(Place& place) {
 void Game::Play() {
 	window.clear(bgColor);
 
-	ConfigurePlaces();
 	SetTextPosition();
 	ConfigureBars();
-	c.Initialize(drawAtPosition(places[0]));
+	c.Initialize(drawAtPosition(places[8]));
 	ci.ConfigC(drawAtPosition(places[1]));
 
 	while (window.isOpen()) {
