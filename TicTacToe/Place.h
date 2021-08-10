@@ -8,11 +8,13 @@ private:
 	sf::Vector2f position;
 	sf::Vector2f placeSignPos;
 	sf::Color color;
+	bool isCovered;
 public:
 	Place(sf::Color c, sf::Vector2f pos, sf::Vector2f drawPos) {
 		color = c;
 		position = pos;
 		placeSignPos = drawPos;
+		isCovered = false;
 		pl.setFillColor(color);
 		pl.setPosition(position);
 	};
@@ -23,6 +25,12 @@ public:
 	}
 	sf::RectangleShape getShape() {
 		return pl;
+	}
+	bool getCover() {
+		return isCovered;
+	}
+	void setCover(bool val) {
+		isCovered = val;
 	}
 };
 

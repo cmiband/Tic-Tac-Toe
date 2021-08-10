@@ -29,13 +29,13 @@ void Game::DrawBars() {
 	window.draw(horizontalBars[0]); window.draw(horizontalBars[1]);
 }
 
-void Game::DrawCross() {
+void Game::DrawCross(Cross &c) {
 	window.draw(c.getLine1());
 	window.draw(c.getLine2());
 }
 
-void Game::DrawCircle() {
-	window.draw(ci.getShape());
+void Game::DrawCircle(Circle &c) {
+	window.draw(c.getShape());
 }
 
 sf::Vector2f Game::drawAtPosition(Place& place) {
@@ -43,13 +43,27 @@ sf::Vector2f Game::drawAtPosition(Place& place) {
 	return p;
 }
 
+int Game::placeClicked() {
+	bool clicked = false;
+	sf::Vector2i mpos = mouse.getPosition(window);
+	sf::Vector2f mposf = sf::Vector2f((float)mpos.x, (float)mpos.y);
+	for (int i = 0; i < 9; ++i) {
+		sf::RectangleShape rs = places[i].getShape();
+		bool c = rs.getGlobalBounds().contains(mposf);
+		if (c) {
+			clicked = c;
+			break;
+		}
+	}
+
+	return clicked;
+}
+
 void Game::Play() {
 	window.clear(bgColor);
 
 	SetTextPosition();
 	ConfigureBars();
-	c.Initialize(drawAtPosition(places[8]));
-	ci.ConfigC(drawAtPosition(places[1]));
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -59,12 +73,16 @@ void Game::Play() {
 				window.close();
 			}
 			window.clear(bgColor);
+			if (event.type == sf::Event::MouseButtonPressed) {
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					int placeIndex = placeClicked();
+					sf::Vector2f drawPos = drawAtPosition(places[placeIndex]);
+				}
+			}
 					
 			RenderText();
 			DrawPlaces();
 			DrawBars();
-			DrawCross();
-			DrawCircle();
 
 			window.display();
 		}

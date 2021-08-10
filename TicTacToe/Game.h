@@ -7,9 +7,6 @@
 class Game : public Cross
 {
 private:
-	Cross c;
-	Circle ci;
-
 	//colors
 	sf::Color bgColor;
 	sf::Color placeColor = sf::Color(sf::Color::Red);
@@ -62,11 +59,11 @@ public:
 	void ConfigureBars();
 	void DrawBars();
 
-	void DrawCross();
-	void DrawCircle();
+	void DrawCross(Cross &c);
+	void DrawCircle(Circle &c);
 
 	//checking
-	int placeClicked(); // TODO: return index of place clicked
+	int placeClicked();
 	
 	void Play();
 };
