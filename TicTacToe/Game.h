@@ -10,6 +10,8 @@ class Game : public Cross
 {
 private:
 	bool drawX = true;
+	int moveIteratorX = 0;
+	int moveIteratorY = 0;
 
 	//colors
 	sf::Color bgColor;
@@ -52,7 +54,7 @@ private:
 	sf::Text title = sf::Text("Tic Tac Toe", font, 50);
 
 public:
-	Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f) { bgColor = c; };
+	Game(sf::Color c, sf::RenderWindow& w, sf::Font& f);
 	~Game() {};
 
 
@@ -63,14 +65,19 @@ public:
 
 	//tic tac board
 	void DrawPlaces();
+	void FinalDraw();
 	void ConfigureBars();
 	void DrawBars();
 
 	void DrawCross(Cross &c);
-	void DrawCircle(Circle &c);
+	void DrawCircle(Circle& c);
 
 	//checking
 	int placeClicked();
+
+	void FillPairs();
+	void CreateX(int pi);
+	void CreateO(int pi);
 	
 	void Play();
 };

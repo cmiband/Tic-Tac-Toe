@@ -1,6 +1,18 @@
 #include "Game.h"
 #include <SFML/Graphics.hpp>
 
+Game::Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f) 
+{ 
+	bgColor = c; 
+
+	for (int i = 0; i < 5; ++i) {
+		crosses[i].first = NULL;
+	}
+	for (int i = 0; i < 4; ++i) {
+		circles[i].first = NULL;
+	}
+}
+
 void Game::SetTextPosition() {
 	title.setPosition(textPos);
 }
@@ -69,13 +81,63 @@ int Game::placeClicked() {
 	return clicked;
 }
 
+void Game::FinalDraw() {
+	if (crosses[0].first != NULL) {
+		DrawCross(crosses[0].second);
+	}
+	if (crosses[1].first != NULL) {
+		DrawCross(crosses[1].second);
+	}
+	if (crosses[2].first != NULL) {
+		DrawCross(crosses[1].second);
+	}
+	if (crosses[3].first != NULL) {
+		DrawCross(crosses[1].second);
+	}
+	if (crosses[4].first != NULL) {
+		DrawCross(crosses[1].second);
+	}
+	if (circles[0].first != NULL) {
+		DrawCircle(circles[0].second);
+	}
+	if (circles[1].first != NULL) {
+		DrawCircle(circles[1].second);
+	}
+	if (circles[2].first != NULL) {
+		DrawCircle(circles[2].second);
+	}
+	if (circles[3].first != NULL) {
+		DrawCircle(circles[3].second);
+	}
+}
+
+void Game::CreateX(int pi) {
+	printf("%d move X\n", moveIteratorX);
+	Cross x;
+	x.Initialize(drawAtPosition(places[pi]));
+	crosses[moveIteratorX].first = pi;
+	crosses[moveIteratorX].second = x;
+	if(moveIteratorX < 5)
+		++moveIteratorX;
+	drawX = false;
+}
+
+void Game::CreateO(int pi) {
+	printf("%d move O\n", moveIteratorY);
+	Circle o;
+	o.ConfigC(drawAtPosition(places[pi]));
+	circles[moveIteratorY].first = pi;
+	circles[moveIteratorY].second = o;	
+	if(moveIteratorY < 4)
+		moveIteratorY += 1;
+	drawX = true;
+}
+
 void Game::Play() {
 	window.clear(bgColor);
 
 	SetTextPosition();
 	ConfigureBars();
-
-	int moveIteratorX = 0;
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -88,17 +150,19 @@ void Game::Play() {
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					int placeIndex = placeClicked();
+					printf("%d\n", placeIndex);
 					if (placeIndex != NULL) {
 						if (drawX) {
-							Cross x;
-							x.Initialize(drawAtPosition(places[placeIndex]));
-							crosses[moveIteratorX].first = placeIndex;
-							crosses[moveIteratorX].second = x;
+							CreateX(placeIndex);
+						}
+						if (!drawX) {
+							CreateO(placeIndex);
 						}
 					}
 				}
 			}
-					
+			
+			FinalDraw();
 			RenderText();
 			DrawPlaces();
 			DrawBars();
