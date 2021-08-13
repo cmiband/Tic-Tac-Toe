@@ -3,10 +3,14 @@
 #include "Cross.h"
 #include "Circle.h"
 #include "Place.h"
+#include <stdio.h>
+#include <utility>
 
 class Game : public Cross
 {
 private:
+	bool drawX = true;
+
 	//colors
 	sf::Color bgColor;
 	sf::Color placeColor = sf::Color(sf::Color::Red);
@@ -39,6 +43,9 @@ private:
 		sf::RectangleShape(sf::Vector2f(300.0f, 10.0f))
 	};
 	sf::Mouse mouse;
+	
+	std::pair<int, Cross> crosses[5];
+	std::pair<int, Circle> circles[4];
 
 	//text
 	sf::Font font;

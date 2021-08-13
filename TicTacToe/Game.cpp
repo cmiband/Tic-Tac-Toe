@@ -44,17 +44,27 @@ sf::Vector2f Game::drawAtPosition(Place& place) {
 }
 
 int Game::placeClicked() {
-	bool clicked = false;
+	int clicked = NULL;
 	sf::Vector2i mpos = mouse.getPosition(window);
 	sf::Vector2f mposf = sf::Vector2f((float)mpos.x, (float)mpos.y);
-	for (int i = 0; i < 9; ++i) {
-		sf::RectangleShape rs = places[i].getShape();
-		bool c = rs.getGlobalBounds().contains(mposf);
-		if (c) {
-			clicked = c;
-			break;
-		}
-	}
+	if (places[0].getShape().getGlobalBounds().contains(mposf))
+		return 0;
+	if (places[1].getShape().getGlobalBounds().contains(mposf))
+		return 1;
+	if (places[2].getShape().getGlobalBounds().contains(mposf))
+		return 2;
+	if (places[3].getShape().getGlobalBounds().contains(mposf))
+		return 3;
+	if (places[4].getShape().getGlobalBounds().contains(mposf))
+		return 4;
+	if (places[5].getShape().getGlobalBounds().contains(mposf))
+		return 5;
+	if (places[6].getShape().getGlobalBounds().contains(mposf))
+		return 6;
+	if (places[7].getShape().getGlobalBounds().contains(mposf))
+		return 7;
+	if (places[8].getShape().getGlobalBounds().contains(mposf))
+		return 8;
 
 	return clicked;
 }
@@ -64,6 +74,8 @@ void Game::Play() {
 
 	SetTextPosition();
 	ConfigureBars();
+
+	int moveIteratorX = 0;
 
 	while (window.isOpen()) {
 		sf::Event event;
@@ -76,7 +88,14 @@ void Game::Play() {
 			if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Left) {
 					int placeIndex = placeClicked();
-					sf::Vector2f drawPos = drawAtPosition(places[placeIndex]);
+					if (placeIndex != NULL) {
+						if (drawX) {
+							Cross x;
+							x.Initialize(drawAtPosition(places[placeIndex]));
+							crosses[moveIteratorX].first = placeIndex;
+							crosses[moveIteratorX].second = x;
+						}
+					}
 				}
 			}
 					
