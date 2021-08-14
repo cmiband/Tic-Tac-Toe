@@ -75,9 +75,11 @@ public:
 	//checking
 	int placeClicked();
 
-	void FillPairs();
 	void CreateX(int pi);
 	void CreateO(int pi);
+
+	// endgame
+	bool winConditions();
 	
 	void Play();
 };

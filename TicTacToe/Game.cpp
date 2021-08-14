@@ -6,10 +6,10 @@ Game::Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f)
 	bgColor = c; 
 
 	for (int i = 0; i < 5; ++i) {
-		crosses[i].first = NULL;
+		crosses[i].first = -1;
 	}
 	for (int i = 0; i < 4; ++i) {
-		circles[i].first = NULL;
+		circles[i].first = -1;
 	}
 }
 
@@ -56,7 +56,7 @@ sf::Vector2f Game::drawAtPosition(Place& place) {
 }
 
 int Game::placeClicked() {
-	int clicked = NULL;
+	int clicked = -1;
 	sf::Vector2i mpos = mouse.getPosition(window);
 	sf::Vector2f mposf = sf::Vector2f((float)mpos.x, (float)mpos.y);
 	if (places[0].getShape().getGlobalBounds().contains(mposf))
@@ -82,55 +82,69 @@ int Game::placeClicked() {
 }
 
 void Game::FinalDraw() {
-	if (crosses[0].first != NULL) {
+	if (crosses[0].first != -1) {
+		crosses[0].second.Initialize(drawAtPosition(places[crosses[0].first]));
 		DrawCross(crosses[0].second);
 	}
-	if (crosses[1].first != NULL) {
+	if (crosses[1].first != -1) {
+		crosses[1].second.Initialize(drawAtPosition(places[crosses[1].first]));
 		DrawCross(crosses[1].second);
 	}
-	if (crosses[2].first != NULL) {
-		DrawCross(crosses[1].second);
+	if (crosses[2].first != -1) {
+		crosses[2].second.Initialize(drawAtPosition(places[crosses[2].first]));
+		DrawCross(crosses[2].second);
 	}
-	if (crosses[3].first != NULL) {
-		DrawCross(crosses[1].second);
+	if (crosses[3].first != -1) {
+		crosses[3].second.Initialize(drawAtPosition(places[crosses[3].first]));
+		DrawCross(crosses[3].second);
 	}
-	if (crosses[4].first != NULL) {
-		DrawCross(crosses[1].second);
+	if (crosses[4].first != -1) {
+		crosses[4].second.Initialize(drawAtPosition(places[crosses[4].first]));
+		DrawCross(crosses[4].second);
 	}
-	if (circles[0].first != NULL) {
+	if (circles[0].first != -1) {
+		circles[0].second.ConfigC(drawAtPosition(places[circles[0].first]));
 		DrawCircle(circles[0].second);
 	}
-	if (circles[1].first != NULL) {
+	if (circles[1].first != -1) {
+		circles[1].second.ConfigC(drawAtPosition(places[circles[1].first]));
 		DrawCircle(circles[1].second);
 	}
-	if (circles[2].first != NULL) {
+	if (circles[2].first != -1) {
+		circles[2].second.ConfigC(drawAtPosition(places[circles[2].first]));
 		DrawCircle(circles[2].second);
 	}
-	if (circles[3].first != NULL) {
+	if (circles[3].first != -1) {
+		circles[3].second.ConfigC(drawAtPosition(places[circles[3].first]));
 		DrawCircle(circles[3].second);
 	}
 }
 
 void Game::CreateX(int pi) {
-	printf("%d move X\n", moveIteratorX);
 	Cross x;
-	x.Initialize(drawAtPosition(places[pi]));
+	places[pi].setCover(true);
 	crosses[moveIteratorX].first = pi;
 	crosses[moveIteratorX].second = x;
 	if(moveIteratorX < 5)
 		++moveIteratorX;
 	drawX = false;
+	printf("%d move X\n", moveIteratorX);
 }
 
 void Game::CreateO(int pi) {
-	printf("%d move O\n", moveIteratorY);
 	Circle o;
 	o.ConfigC(drawAtPosition(places[pi]));
+	places[pi].setCover(true);
 	circles[moveIteratorY].first = pi;
 	circles[moveIteratorY].second = o;	
 	if(moveIteratorY < 4)
-		moveIteratorY += 1;
+		++moveIteratorY;
 	drawX = true;
+	printf("%d move O\n", moveIteratorY);
+}
+
+bool Game::winConditions() {
+	return true;
 }
 
 void Game::Play() {
@@ -147,25 +161,30 @@ void Game::Play() {
 				window.close();
 			}
 			window.clear(bgColor);
-			if (event.type == sf::Event::MouseButtonPressed) {
-				if (event.mouseButton.button == sf::Mouse::Left) {
-					int placeIndex = placeClicked();
-					printf("%d\n", placeIndex);
-					if (placeIndex != NULL) {
-						if (drawX) {
+			if (drawX) {
+				if (event.type == sf::Event::MouseButtonPressed) {
+					if (event.mouseButton.button == sf::Mouse::Left) {
+						int placeIndex = placeClicked();
+						if (placeIndex != -1 && !places[placeIndex].getCover())
 							CreateX(placeIndex);
-						}
-						if (!drawX) {
-							CreateO(placeIndex);
+					}
+				}
+			}
+			if (!drawX) {
+				if (event.type == sf::Event::MouseButtonPressed) {
+					if (event.mouseButton.button == sf::Mouse::Left) {
+						int plIn = placeClicked();
+						if (plIn != -1 && !places[plIn].getCover()) {
+							CreateO(plIn);
 						}
 					}
 				}
 			}
 			
-			FinalDraw();
 			RenderText();
 			DrawPlaces();
 			DrawBars();
+			FinalDraw();
 
 			window.display();
 		}
