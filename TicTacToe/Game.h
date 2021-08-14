@@ -20,6 +20,7 @@ private:
 	
 	//positions
 	sf::Vector2f textPos = sf::Vector2f(150.0f, 25.0f);
+	sf::Vector2f endingScreenPos = sf::Vector2f(110.0f, 400.0f);
 	sf::Vector2f testCrossPos = sf::Vector2f(15.0f, 15.0f);
 	sf::Vector2f testCirclePos = sf::Vector2f(400.0f, 15.0f);
 	
@@ -52,15 +53,15 @@ private:
 	//text
 	sf::Font font;
 	sf::Text title = sf::Text("Tic Tac Toe", font, 50);
+	sf::Text endingScreenX = sf::Text("X player won!", font, 60);
+	sf::Text endingScreenO = sf::Text("O player won!", font, 60);
 
 public:
 	Game(sf::Color c, sf::RenderWindow& w, sf::Font& f);
 	~Game() {};
 
-
 	sf::Vector2f drawAtPosition(Place& place);
 	//text
-	void SetTextPosition();
 	void RenderText();
 
 	//tic tac board
@@ -79,7 +80,8 @@ public:
 	void CreateO(int pi);
 
 	// endgame
-	bool winConditions();
+	bool winConditionsX();
+	bool winConditionsO();
 	
 	void Play();
 };

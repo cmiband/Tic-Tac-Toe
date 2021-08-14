@@ -1,6 +1,4 @@
-#include <iostream>
 #include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
 #include "Game.h"
 
 using namespace std;

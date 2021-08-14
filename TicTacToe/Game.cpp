@@ -11,10 +11,10 @@ Game::Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f)
 	for (int i = 0; i < 4; ++i) {
 		circles[i].first = -1;
 	}
-}
 
-void Game::SetTextPosition() {
 	title.setPosition(textPos);
+	endingScreenX.setPosition(endingScreenPos);
+	endingScreenO.setPosition(endingScreenPos);
 }
 
 void Game::RenderText() {
@@ -123,68 +123,117 @@ void Game::FinalDraw() {
 void Game::CreateX(int pi) {
 	Cross x;
 	places[pi].setCover(true);
+	places[pi].setCoverX(true);
 	crosses[moveIteratorX].first = pi;
 	crosses[moveIteratorX].second = x;
 	if(moveIteratorX < 5)
 		++moveIteratorX;
 	drawX = false;
 	printf("%d move X\n", moveIteratorX);
+	printf("%d place %d cover X\n", pi, places[pi].getCoverX());
 }
 
 void Game::CreateO(int pi) {
 	Circle o;
 	o.ConfigC(drawAtPosition(places[pi]));
 	places[pi].setCover(true);
+	places[pi].setCoverO(true);
 	circles[moveIteratorY].first = pi;
 	circles[moveIteratorY].second = o;	
 	if(moveIteratorY < 4)
 		++moveIteratorY;
 	drawX = true;
 	printf("%d move O\n", moveIteratorY);
+	printf("%d place %d cover O\n", pi, places[pi].getCoverO());
 }
 
-bool Game::winConditions() {
-	return true;
+bool Game::winConditionsX() {
+	if (places[0].getCoverX() && places[1].getCoverX() && places[2].getCoverX())
+		return true;
+	if (places[0].getCoverX() && places[3].getCoverX() && places[6].getCoverX())
+		return true;
+	if (places[0].getCoverX() && places[4].getCoverX() && places[8].getCoverX())
+		return true;
+	if (places[6].getCoverX() && places[4].getCoverX() && places[2].getCoverX())
+		return true;
+	if (places[6].getCoverX() && places[7].getCoverX() && places[8].getCoverX())
+		return true;
+	if (places[2].getCoverX() && places[5].getCoverX() && places[8].getCoverX())
+		return true;
+	if (places[1].getCoverX() && places[4].getCoverX() && places[7].getCoverX())
+		return true;
+	if (places[3].getCoverX() && places[4].getCoverX() && places[5].getCoverX())
+		return true;
+	return false;
+}
+
+bool Game::winConditionsO() {
+	if (places[0].getCoverO() && places[1].getCoverO() && places[2].getCoverO())
+		return true;
+	if (places[0].getCoverO() && places[3].getCoverO() && places[6].getCoverO())
+		return true;
+	if (places[0].getCoverO() && places[4].getCoverO() && places[8].getCoverO())
+		return true;
+	if (places[6].getCoverO() && places[4].getCoverO() && places[2].getCoverO())
+		return true;
+	if (places[6].getCoverO() && places[7].getCoverO() && places[8].getCoverO())
+		return true;
+	if (places[2].getCoverO() && places[5].getCoverO() && places[8].getCoverO())
+		return true;
+	if (places[1].getCoverO() && places[4].getCoverO() && places[7].getCoverO())
+		return true;
+	if (places[3].getCoverO() && places[4].getCoverO() && places[5].getCoverO())
+		return true;
+	return false;
 }
 
 void Game::Play() {
 	window.clear(bgColor);
 
-	SetTextPosition();
 	ConfigureBars();
 
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
+			bool xwon = winConditionsX();
+			bool owon = winConditionsO();
+			bool won = xwon || owon;
+
 			if (event.type == sf::Event::Closed)
 			{
 				window.close();
 			}
 			window.clear(bgColor);
-			if (drawX) {
-				if (event.type == sf::Event::MouseButtonPressed) {
-					if (event.mouseButton.button == sf::Mouse::Left) {
-						int placeIndex = placeClicked();
-						if (placeIndex != -1 && !places[placeIndex].getCover())
-							CreateX(placeIndex);
+			if (!won) {
+				if (drawX) {
+					if (event.type == sf::Event::MouseButtonPressed) {
+						if (event.mouseButton.button == sf::Mouse::Left) {
+							int placeIndex = placeClicked();
+							if (placeIndex != -1 && !places[placeIndex].getCover())
+								CreateX(placeIndex);
+						}
 					}
 				}
-			}
-			if (!drawX) {
-				if (event.type == sf::Event::MouseButtonPressed) {
-					if (event.mouseButton.button == sf::Mouse::Left) {
-						int plIn = placeClicked();
-						if (plIn != -1 && !places[plIn].getCover()) {
-							CreateO(plIn);
+				if (!drawX) {
+					if (event.type == sf::Event::MouseButtonPressed) {
+						if (event.mouseButton.button == sf::Mouse::Left) {
+							int plIn = placeClicked();
+							if (plIn != -1 && !places[plIn].getCover()) {
+								CreateO(plIn);
+							}
 						}
 					}
 				}
 			}
-			
+
 			RenderText();
 			DrawPlaces();
 			DrawBars();
 			FinalDraw();
+			if (xwon)
+				window.draw(endingScreenX);
+			if (owon)
+				window.draw(endingScreenO);
 
 			window.display();
 		}
