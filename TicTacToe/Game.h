@@ -3,7 +3,6 @@
 #include "Cross.h"
 #include "Circle.h"
 #include "Place.h"
-#include <stdio.h>
 #include <utility>
 
 class Game : public Cross

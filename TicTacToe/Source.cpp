@@ -1,8 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 
-using namespace std;
-
 int main() {
 	sf::RenderWindow window(sf::VideoMode(500, 500), "TicTacToe");
 	sf::Font f;

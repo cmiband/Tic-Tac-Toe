@@ -129,8 +129,6 @@ void Game::CreateX(int pi) {
 	if(moveIteratorX < 5)
 		++moveIteratorX;
 	drawX = false;
-	printf("%d move X\n", moveIteratorX);
-	printf("%d place %d cover X\n", pi, places[pi].getCoverX());
 }
 
 void Game::CreateO(int pi) {
@@ -143,8 +141,6 @@ void Game::CreateO(int pi) {
 	if(moveIteratorY < 4)
 		++moveIteratorY;
 	drawX = true;
-	printf("%d move O\n", moveIteratorY);
-	printf("%d place %d cover O\n", pi, places[pi].getCoverO());
 }
 
 bool Game::winConditionsX() {
