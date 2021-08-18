@@ -192,16 +192,12 @@ void Game::DrawButton() {
 }
 
 void Game::RestartBoard() {
-	Cross* arrc[5];
-	Circle* arrci[4];
 	for (int i = 0; i < 5; ++i) {
 		if (crosses[i].first != -1) {
 			places[crosses[i].first].setCover(false);
 			places[crosses[i].first].setCoverX(false);
 		}
 		crosses[i].first = -1;
-		arrc[i] = &crosses[i].second;
-		arrc[i] = nullptr;
 	}
 	for (int i = 0; i < 4; ++i) {
 		if (circles[i].first != -1) {
@@ -209,9 +205,9 @@ void Game::RestartBoard() {
 			places[circles[i].first].setCoverO(false);
 		}
 		circles[i].first = -1;
-		arrci[i] = &circles[i].second;
-		arrci[i] = nullptr;
 	}
+	moveIteratorX = 0;
+	moveIteratorY = 0;
 }
 
 void Game::Play() {
