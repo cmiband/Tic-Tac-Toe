@@ -15,6 +15,9 @@ Game::Game(sf::Color c, sf::RenderWindow& w, sf::Font& f) : window(w), font(f)
 	title.setPosition(textPos);
 	endingScreenX.setPosition(endingScreenPos);
 	endingScreenO.setPosition(endingScreenPos);
+	restartButton.setPosition(sf::Vector2f(0.0f, 0.0f));
+	restartButton.setFillColor(sf::Color::Red);
+	restart.setPosition(sf::Vector2f(0.0f, 0.0f));
 }
 
 void Game::RenderText() {
@@ -183,6 +186,34 @@ bool Game::winConditionsO() {
 	return false;
 }
 
+void Game::DrawButton() {
+	window.draw(restartButton);
+	window.draw(restart);
+}
+
+void Game::RestartBoard() {
+	Cross* arrc[5];
+	Circle* arrci[4];
+	for (int i = 0; i < 5; ++i) {
+		if (crosses[i].first != -1) {
+			places[crosses[i].first].setCover(false);
+			places[crosses[i].first].setCoverX(false);
+		}
+		crosses[i].first = -1;
+		arrc[i] = &crosses[i].second;
+		arrc[i] = nullptr;
+	}
+	for (int i = 0; i < 4; ++i) {
+		if (circles[i].first != -1) {
+			places[circles[i].first].setCover(false);
+			places[circles[i].first].setCoverO(false);
+		}
+		circles[i].first = -1;
+		arrci[i] = &circles[i].second;
+		arrci[i] = nullptr;
+	}
+}
+
 void Game::Play() {
 	window.clear(bgColor);
 
@@ -191,6 +222,10 @@ void Game::Play() {
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
+			sf::Vector2i mpi = mouse.getPosition(window);
+			sf::Vector2f mposf = sf::Vector2f((float)mpi.x, (float)mpi.y);
+			bool canClickRestartButton = restartButton.getGlobalBounds().contains(mposf);
+
 			bool xwon = winConditionsX();
 			bool owon = winConditionsO();
 			bool won = xwon || owon;
@@ -221,11 +256,19 @@ void Game::Play() {
 					}
 				}
 			}
+			if (canClickRestartButton) {
+				if (event.type == sf::Event::MouseButtonPressed) {
+					if (event.mouseButton.button == sf::Mouse::Left) {
+						RestartBoard();
+					}
+				}
+			}
 
 			RenderText();
 			DrawPlaces();
 			DrawBars();
 			FinalDraw();
+			DrawButton();
 			if (xwon)
 				window.draw(endingScreenX);
 			if (owon)

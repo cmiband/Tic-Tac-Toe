@@ -48,12 +48,14 @@ private:
 	
 	std::pair<int, Cross> crosses[5];
 	std::pair<int, Circle> circles[4];
+	sf::RectangleShape restartButton = sf::RectangleShape(sf::Vector2f(85.0f, 18.0f));
 
 	//text
 	sf::Font font;
 	sf::Text title = sf::Text("Tic Tac Toe", font, 50);
 	sf::Text endingScreenX = sf::Text("X player won!", font, 60);
 	sf::Text endingScreenO = sf::Text("O player won!", font, 60);
+	sf::Text restart = sf::Text("Restart game!", font, 15);
 
 public:
 	Game(sf::Color c, sf::RenderWindow& w, sf::Font& f);
@@ -71,6 +73,9 @@ public:
 
 	void DrawCross(Cross &c);
 	void DrawCircle(Circle& c);
+
+	void DrawButton();
+	void RestartBoard();
 
 	//checking
 	int placeClicked();
